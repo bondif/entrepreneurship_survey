@@ -46,7 +46,7 @@ class AdminController extends Controller
         $countriesDataset = [];
         $countries = SurveyResult::getCountriesCount("question1")->get();
         foreach ($countries as $country) {
-            $labels[] = Str::substr($country->country, 1, count($country->country) - 2);
+            $labels[] = Str::substr($country->country, 1, strlen($country->country) - 2);
             $countriesDataset[] = $country->cnt;
         }
         $labels = collect($labels)->map(function ($country) {

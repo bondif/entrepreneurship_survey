@@ -23,4 +23,5 @@ Route::get("/login", function () {
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/', 'AdminController@index')->name('admin');
+    Route::get('/results', 'AdminController@results')->name('admin.results');
 });

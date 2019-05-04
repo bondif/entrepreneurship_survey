@@ -6,6 +6,7 @@ use App\Charts\AgesChart;
 use App\Charts\CountriesChart;
 use App\Charts\GendersChart;
 use App\Charts\HadMadeOnlinePurchaseChart;
+use App\Charts\MarketingStrategyChart;
 use App\SurveyResult;
 use Illuminate\Support\Str;
 
@@ -74,11 +75,27 @@ class AdminController extends Controller
         $purchaseDataset->backgroundColor(collect(['#3ae374', '#ff3838']));
         $purchaseDataset->color(collect(['#32ff7e', '#ff4d4d']));
 
+        $searchEngines = SurveyResult::getMarketingStrategy('question3', 'item1');
+        $internetAds = SurveyResult::getMarketingStrategy('question3', 'item2');
+        $referrers = SurveyResult::getMarketingStrategy('question3', 'item3');
+        $byChance = SurveyResult::getMarketingStrategy('question3', 'item4');
+        $wordOfMouth = SurveyResult::getMarketingStrategy('question3', 'item5');
+        $traditionalAds = SurveyResult::getMarketingStrategy('question3', 'item6');
+        $others = SurveyResult::getMarketingStrategy('question3', 'item7');
+
+        $marketingStrategyChart = new MarketingStrategyChart();
+        $marketingStrategyChart->title("Marketing Strategies");
+        $marketingStrategyChart->labels(["Search engines", "Internet advertising", "Link from another website", "By chance while surfing", "Word-of-mouth", "Traditional advertising", "Other"]);
+        $marketingStrategyChart->dataset('Marketing Strategy', 'bar', [
+            $searchEngines, $internetAds, $referrers, $byChance, $wordOfMouth, $traditionalAds, $others
+        ]);
+
         return view('results', compact([
             'gendersChart',
             'agesChart',
             'countriesChart',
             'hadMadeOnlinePurchaseChart',
+            'marketingStrategyChart',
         ]));
     }
 

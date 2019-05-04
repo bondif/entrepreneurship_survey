@@ -5,6 +5,7 @@
     <div class="container">{!! $agesChart->container() !!}</div>
     <div class="container">{!! $countriesChart->container() !!}</div>
     <div class="container">{!! $hadMadeOnlinePurchaseChart->container() !!}</div>
+    <div class="container">{!! $marketingStrategyChart->container() !!}</div>
 @stop
 
 @section('scripts')
@@ -12,4 +13,5 @@
     {!! $agesChart->script() !!}
     {!! $countriesChart->script() !!}
     {!! $hadMadeOnlinePurchaseChart->script() !!}
+    {!! $marketingStrategyChart->script() !!}
 @stop

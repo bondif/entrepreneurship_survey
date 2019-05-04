@@ -21,6 +21,15 @@ class SurveyResult extends Model
 
     public static function getCountriesCount($question)
     {
-        return SurveyResult::select(DB::raw('JSON_EXTRACT(json, "$.'. $question .'") country, count(JSON_EXTRACT(json, "$.'. $question .'")) cnt'))->groupBy('country');
+        return SurveyResult::select(DB::raw('JSON_EXTRACT(json, "$.'. $question .'") country, count(JSON_EXTRACT(json, "$.'. $question .'")) cnt'))
+            ->groupBy('country')
+            ->get();
+    }
+
+    public static function getHasMadeOnlinePurchase($question, $onlinePurchase)
+    {
+        return SurveyResult::select(DB::raw('JSON_EXTRACT(json, "$.'. $question .'")'))
+            ->whereRaw('json_extract(json, "$.' . $question . '") = "' . $onlinePurchase . '"')
+            ->count();
     }
 }

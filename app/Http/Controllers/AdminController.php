@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Charts\AgesChart;
 use App\Charts\CountriesChart;
 use App\Charts\GendersChart;
+use App\Charts\HadMadeOnlinePurchaseChart;
 use App\SurveyResult;
 use Illuminate\Support\Str;
 
@@ -23,6 +24,7 @@ class AdminController extends Controller
 
         $gendersChart = new GendersChart();
         $gendersChart->displayAxes(false);
+        $gendersChart->title("Gender");
         $gendersChart->labels(["Female", "Male", "Other"]);
         $dataset = $gendersChart->dataset('data', 'pie', [$femalesCount, $malesCount, $othersCount]);
         $dataset->backgroundColor(collect(['#7158e2','#3ae374', '#ff3838']));
@@ -37,6 +39,7 @@ class AdminController extends Controller
         $gt60 = SurveyResult::getAgesCount('question13', 'item7');
 
         $agesChart = new AgesChart();
+        $agesChart->title("Age intervals");
         $agesChart->labels(["<18", "18-20", "21-29", "30-39", "40-49", "50-59", ">=60"]);
         $agesChart->dataset('Age Intervals', 'bar', [
             $lt17, $between18And20, $between21And29, $between30And39, $between40And49, $between50And59, $gt60
@@ -44,7 +47,7 @@ class AdminController extends Controller
 
         $labels = [];
         $countriesDataset = [];
-        $countries = SurveyResult::getCountriesCount("question1")->get();
+        $countries = SurveyResult::getCountriesCount("question1");
         foreach ($countries as $country) {
             $labels[] = Str::substr($country->country, 1, strlen($country->country) - 2);
             $countriesDataset[] = $country->cnt;
@@ -53,13 +56,29 @@ class AdminController extends Controller
             return $this->mapCountry($country);
         });
         $countriesChart = new CountriesChart();
+        $countriesChart->title("Where are you from?");
         $countriesChart->labels($labels);
         $countriesChart->dataset('Countries', 'bar', $countriesDataset);
+
+        $hadMadeOnlinePurchase = SurveyResult::getHasMadeOnlinePurchase("question2", "item1");
+        $hadNotMadeOnlinePurchase = SurveyResult::getHasMadeOnlinePurchase("question2", "item2");
+
+        $hadMadeOnlinePurchaseChart = new HadMadeOnlinePurchaseChart();
+        $hadMadeOnlinePurchaseChart->displayAxes(false);
+        $hadMadeOnlinePurchaseChart->title("Have you ever made an online purchase?");
+        $hadMadeOnlinePurchaseChart->labels(['Yes', 'No']);
+        $purchaseDataset = $hadMadeOnlinePurchaseChart->dataset(
+            "Had Made Online Purchase",
+            "pie",
+            [$hadMadeOnlinePurchase, $hadNotMadeOnlinePurchase]);
+        $purchaseDataset->backgroundColor(collect(['#3ae374', '#ff3838']));
+        $purchaseDataset->color(collect(['#32ff7e', '#ff4d4d']));
 
         return view('results', compact([
             'gendersChart',
             'agesChart',
             'countriesChart',
+            'hadMadeOnlinePurchaseChart',
         ]));
     }
 

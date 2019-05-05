@@ -26,17 +26,35 @@ class AdminController extends Controller
             'hadMadeOnlinePurchaseChart' => $this->getHadMadeOnlinePurchaseChart(),
             'marketingStrategyChart' => $this->getMarketingStrategyChart(),
             'marketsChart' => $this->getMarketsChart(),
+            'bestProductsChart' => $this->getBestProductsChart(),
         ]);
+    }
+
+    private function getBestProductsChart()
+    {
+        $decoration = SurveyResult::getBestProducts('question6', 'item1');
+        $furniture = SurveyResult::getBestProducts('question6', 'item2');
+        $art = SurveyResult::getBestProducts('question6', 'item3');
+        $none = SurveyResult::getBestProducts('question6', 'item5');
+
+        $marketsChart = new MarketingStrategyChart();
+        $marketsChart->title("Best Products");
+        $marketsChart->labels(["Decoration", "Furniture", "Art", "None of the above"]);
+        $marketsChart->dataset('Best Products', 'bar', [
+            $decoration, $furniture, $art, $none
+        ]);
+
+        return $marketsChart;
     }
 
     private function getMarketsChart()
     {
-        $supermarkets = SurveyResult::getMarketingStrategy('question5', 'item1');
-        $specializedShops = SurveyResult::getMarketingStrategy('question5', 'item2');
-        $traditionalMarkets = SurveyResult::getMarketingStrategy('question5', 'item3');
-        $mailOrderSelling = SurveyResult::getMarketingStrategy('question5', 'item4');
-        $internetShops = SurveyResult::getMarketingStrategy('question5', 'item5');
-        $others = SurveyResult::getMarketingStrategy('question5', 'item6');
+        $supermarkets = SurveyResult::getMarkets('question5', 'item1');
+        $specializedShops = SurveyResult::getMarkets('question5', 'item2');
+        $traditionalMarkets = SurveyResult::getMarkets('question5', 'item3');
+        $mailOrderSelling = SurveyResult::getMarkets('question5', 'item4');
+        $internetShops = SurveyResult::getMarkets('question5', 'item5');
+        $others = SurveyResult::getMarkets('question5', 'item6');
 
         $marketsChart = new MarketingStrategyChart();
         $marketsChart->title("Markets");

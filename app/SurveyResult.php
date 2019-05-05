@@ -46,4 +46,11 @@ class SurveyResult extends Model
             ->whereRaw('locate("' . $item . '", JSON_EXTRACT(json, "$.' . $question . '")) > 0')
             ->count();
     }
+
+    public static function getBestProducts($question, $item)
+    {
+        return SurveyResult::select(DB::raw('JSON_EXTRACT(json, "$.'. $question .'")'))
+            ->whereRaw('locate("' . $item . '", JSON_EXTRACT(json, "$.' . $question . '")) > 0')
+            ->count();
+    }
 }

@@ -8,6 +8,7 @@
     <div class="container">{!! $marketingStrategyChart->container() !!}</div>
     <div class="container">{!! $marketsChart->container() !!}</div>
     <div class="container">{!! $bestProductsChart->container() !!}</div>
+    <div class="container">{!! $averageBudgetsChart->container() !!}</div>
 @stop
 
 @section('scripts')
@@ -18,4 +19,5 @@
     {!! $marketingStrategyChart->script() !!}
     {!! $marketsChart->script() !!}
     {!! $bestProductsChart->script() !!}
+    {!! $averageBudgetsChart->script() !!}
 @stop

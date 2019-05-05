@@ -27,7 +27,26 @@ class AdminController extends Controller
             'marketingStrategyChart' => $this->getMarketingStrategyChart(),
             'marketsChart' => $this->getMarketsChart(),
             'bestProductsChart' => $this->getBestProductsChart(),
+            'averageBudgetsChart' => $this->getAverageBudgetsChart(),
         ]);
+    }
+
+    private function getAverageBudgetsChart()
+    {
+        $th200 = SurveyResult::getAverageBudgets('question7', 'item1');
+        $btw200And300 = SurveyResult::getAverageBudgets('question7', 'item2');
+        $btw300And400 = SurveyResult::getAverageBudgets('question7', 'item3');
+        $btw400And500 = SurveyResult::getAverageBudgets('question7', 'item4');
+        $gt500 = SurveyResult::getAverageBudgets('question7', 'item4');
+
+        $averageBudgetsChart = new MarketingStrategyChart();
+        $averageBudgetsChart->title("What is the average annual budget you spend on furniture or craft items?");
+        $averageBudgetsChart->labels(["Less than $200", "From 200$ to 300$", "From 300$ to 400$", "From 400$ to 500$", "More than 500$"]);
+        $averageBudgetsChart->dataset('Average budgets', 'bar', [
+            $th200, $btw200And300, $btw300And400, $btw400And500, $gt500
+        ]);
+
+        return $averageBudgetsChart;
     }
 
     private function getBestProductsChart()
@@ -37,14 +56,14 @@ class AdminController extends Controller
         $art = SurveyResult::getBestProducts('question6', 'item3');
         $none = SurveyResult::getBestProducts('question6', 'item5');
 
-        $marketsChart = new MarketingStrategyChart();
-        $marketsChart->title("Best Products");
-        $marketsChart->labels(["Decoration", "Furniture", "Art", "None of the above"]);
-        $marketsChart->dataset('Best Products', 'bar', [
+        $bestProductsChart = new MarketingStrategyChart();
+        $bestProductsChart->title("Best Products");
+        $bestProductsChart->labels(["Decoration", "Furniture", "Art", "None of the above"]);
+        $bestProductsChart->dataset('Best Products', 'bar', [
             $decoration, $furniture, $art, $none
         ]);
 
-        return $marketsChart;
+        return $bestProductsChart;
     }
 
     private function getMarketsChart()
@@ -156,904 +175,904 @@ class AdminController extends Controller
         $gendersChart->title("Gender");
         $gendersChart->labels(["Female", "Male", "Other"]);
         $dataset = $gendersChart->dataset('data', 'pie', [$femalesCount, $malesCount, $othersCount]);
-        $dataset->backgroundColor(collect(['#7158e2','#3ae374', '#ff3838']));
-        $dataset->color(collect(['#7d5fff','#32ff7e', '#ff4d4d']));
+        $dataset->backgroundColor(collect(['#7158e2', '#3ae374', '#ff3838']));
+        $dataset->color(collect(['#7d5fff', '#32ff7e', '#ff4d4d']));
 
         return $gendersChart;
     }
 
     private function mapCountry(string $country)
     {
-        $countries = array (
+        $countries = array(
             0 =>
-                array (
+                array(
                     'text' => 'Afghanistan',
                     'value' => 'item1',
                 ),
             1 =>
-                array (
+                array(
                     'text' => 'Albania',
                     'value' => 'item3',
                 ),
             2 =>
-                array (
+                array(
                     'text' => 'Algeria',
                     'value' => 'item46',
                 ),
             3 =>
-                array (
+                array(
                     'text' => 'Angola',
                     'value' => 'item2',
                 ),
             4 =>
-                array (
+                array(
                     'text' => 'Antarctica',
                     'value' => 'item7',
                 ),
             5 =>
-                array (
+                array(
                     'text' => 'Argentina',
                     'value' => 'item5',
                 ),
             6 =>
-                array (
+                array(
                     'text' => 'Armenia',
                     'value' => 'item6',
                 ),
             7 =>
-                array (
+                array(
                     'text' => 'Australia',
                     'value' => 'item9',
                 ),
             8 =>
-                array (
+                array(
                     'text' => 'Austria',
                     'value' => 'item10',
                 ),
             9 =>
-                array (
+                array(
                     'text' => 'Azerbaijan',
                     'value' => 'item11',
                 ),
             10 =>
-                array (
+                array(
                     'text' => 'Bangladesh',
                     'value' => 'item16',
                 ),
             11 =>
-                array (
+                array(
                     'text' => 'Belarus',
                     'value' => 'item20',
                 ),
             12 =>
-                array (
+                array(
                     'text' => 'Belgium',
                     'value' => 'item13',
                 ),
             13 =>
-                array (
+                array(
                     'text' => 'Belize',
                     'value' => 'item21',
                 ),
             14 =>
-                array (
+                array(
                     'text' => 'Benin',
                     'value' => 'item14',
                 ),
             15 =>
-                array (
+                array(
                     'text' => 'Bhutan',
                     'value' => 'item25',
                 ),
             16 =>
-                array (
+                array(
                     'text' => 'Bolivia',
                     'value' => 'item22',
                 ),
             17 =>
-                array (
+                array(
                     'text' => 'Bosnia and Herzegovina',
                     'value' => 'item19',
                 ),
             18 =>
-                array (
+                array(
                     'text' => 'Botswana',
                     'value' => 'item26',
                 ),
             19 =>
-                array (
+                array(
                     'text' => 'Brazil',
                     'value' => 'item23',
                 ),
             20 =>
-                array (
+                array(
                     'text' => 'Brunei',
                     'value' => 'item24',
                 ),
             21 =>
-                array (
+                array(
                     'text' => 'Bulgaria',
                     'value' => 'item17',
                 ),
             22 =>
-                array (
+                array(
                     'text' => 'Burkina Faso',
                     'value' => 'item15',
                 ),
             23 =>
-                array (
+                array(
                     'text' => 'Burundi',
                     'value' => 'item12',
                 ),
             24 =>
-                array (
+                array(
                     'text' => 'Cambodia',
                     'value' => 'item87',
                 ),
             25 =>
-                array (
+                array(
                     'text' => 'Cameroon',
                     'value' => 'item33',
                 ),
             26 =>
-                array (
+                array(
                     'text' => 'Canada',
                     'value' => 'item28',
                 ),
             27 =>
-                array (
+                array(
                     'text' => 'Central African Republic',
                     'value' => 'item27',
                 ),
             28 =>
-                array (
+                array(
                     'text' => 'Chad',
                     'value' => 'item154',
                 ),
             29 =>
-                array (
+                array(
                     'text' => 'Chile',
                     'value' => 'item30',
                 ),
             30 =>
-                array (
+                array(
                     'text' => 'China',
                     'value' => 'item31',
                 ),
             31 =>
-                array (
+                array(
                     'text' => 'Colombia',
                     'value' => 'item36',
                 ),
             32 =>
-                array (
+                array(
                     'text' => 'Costa Rica',
                     'value' => 'item37',
                 ),
             33 =>
-                array (
+                array(
                     'text' => 'Croatia',
                     'value' => 'item70',
                 ),
             34 =>
-                array (
+                array(
                     'text' => 'Cuba',
                     'value' => 'item38',
                 ),
             35 =>
-                array (
+                array(
                     'text' => 'Cyprus',
                     'value' => 'item40',
                 ),
             36 =>
-                array (
+                array(
                     'text' => 'Czech Republic',
                     'value' => 'item41',
                 ),
             37 =>
-                array (
+                array(
                     'text' => 'Democratic Republic of the Congo',
                     'value' => 'item34',
                 ),
             38 =>
-                array (
+                array(
                     'text' => 'Denmark',
                     'value' => 'item44',
                 ),
             39 =>
-                array (
+                array(
                     'text' => 'Djibouti',
                     'value' => 'item43',
                 ),
             40 =>
-                array (
+                array(
                     'text' => 'Dominican Republic',
                     'value' => 'item45',
                 ),
             41 =>
-                array (
+                array(
                     'text' => 'East Timor',
                     'value' => 'item159',
                 ),
             42 =>
-                array (
+                array(
                     'text' => 'Ecuador',
                     'value' => 'item47',
                 ),
             43 =>
-                array (
+                array(
                     'text' => 'Egypt',
                     'value' => 'item48',
                 ),
             44 =>
-                array (
+                array(
                     'text' => 'El Salvador',
                     'value' => 'item144',
                 ),
             45 =>
-                array (
+                array(
                     'text' => 'Equatorial Guinea',
                     'value' => 'item64',
                 ),
             46 =>
-                array (
+                array(
                     'text' => 'Eritrea',
                     'value' => 'item49',
                 ),
             47 =>
-                array (
+                array(
                     'text' => 'Estonia',
                     'value' => 'item51',
                 ),
             48 =>
-                array (
+                array(
                     'text' => 'Ethiopia',
                     'value' => 'item52',
                 ),
             49 =>
-                array (
+                array(
                     'text' => 'Falkland Islands',
                     'value' => 'item55',
                 ),
             50 =>
-                array (
+                array(
                     'text' => 'Fiji',
                     'value' => 'item54',
                 ),
             51 =>
-                array (
+                array(
                     'text' => 'Finland',
                     'value' => 'item53',
                 ),
             52 =>
-                array (
+                array(
                     'text' => 'France',
                     'value' => 'item56',
                 ),
             53 =>
-                array (
+                array(
                     'text' => 'French Southern and Antarctic Lands',
                     'value' => 'item8',
                 ),
             54 =>
-                array (
+                array(
                     'text' => 'Gabon',
                     'value' => 'item57',
                 ),
             55 =>
-                array (
+                array(
                     'text' => 'Gambia',
                     'value' => 'item62',
                 ),
             56 =>
-                array (
+                array(
                     'text' => 'Georgia',
                     'value' => 'item59',
                 ),
             57 =>
-                array (
+                array(
                     'text' => 'Germany',
                     'value' => 'item42',
                 ),
             58 =>
-                array (
+                array(
                     'text' => 'Ghana',
                     'value' => 'item60',
                 ),
             59 =>
-                array (
+                array(
                     'text' => 'Greece',
                     'value' => 'item65',
                 ),
             60 =>
-                array (
+                array(
                     'text' => 'Greenland',
                     'value' => 'item66',
                 ),
             61 =>
-                array (
+                array(
                     'text' => 'Guatemala',
                     'value' => 'item67',
                 ),
             62 =>
-                array (
+                array(
                     'text' => 'Guinea',
                     'value' => 'item61',
                 ),
             63 =>
-                array (
+                array(
                     'text' => 'Guinea Bissau',
                     'value' => 'item63',
                 ),
             64 =>
-                array (
+                array(
                     'text' => 'Guyana',
                     'value' => 'item68',
                 ),
             65 =>
-                array (
+                array(
                     'text' => 'Haiti',
                     'value' => 'item71',
                 ),
             66 =>
-                array (
+                array(
                     'text' => 'Honduras',
                     'value' => 'item69',
                 ),
             67 =>
-                array (
+                array(
                     'text' => 'Hungary',
                     'value' => 'item72',
                 ),
             68 =>
-                array (
+                array(
                     'text' => 'Iceland',
                     'value' => 'item78',
                 ),
             69 =>
-                array (
+                array(
                     'text' => 'India',
                     'value' => 'item74',
                 ),
             70 =>
-                array (
+                array(
                     'text' => 'Indonesia',
                     'value' => 'item73',
                 ),
             71 =>
-                array (
+                array(
                     'text' => 'Iran',
                     'value' => 'item76',
                 ),
             72 =>
-                array (
+                array(
                     'text' => 'Iraq',
                     'value' => 'item77',
                 ),
             73 =>
-                array (
+                array(
                     'text' => 'Ireland',
                     'value' => 'item75',
                 ),
             74 =>
-                array (
+                array(
                     'text' => 'Israel',
                     'value' => 'item79',
                 ),
             75 =>
-                array (
+                array(
                     'text' => 'Italy',
                     'value' => 'item80',
                 ),
             76 =>
-                array (
+                array(
                     'text' => 'Ivory Coast',
                     'value' => 'item32',
                 ),
             77 =>
-                array (
+                array(
                     'text' => 'Jamaica',
                     'value' => 'item81',
                 ),
             78 =>
-                array (
+                array(
                     'text' => 'Japan',
                     'value' => 'item83',
                 ),
             79 =>
-                array (
+                array(
                     'text' => 'Jordan',
                     'value' => 'item82',
                 ),
             80 =>
-                array (
+                array(
                     'text' => 'Kazakhstan',
                     'value' => 'item84',
                 ),
             81 =>
-                array (
+                array(
                     'text' => 'Kenya',
                     'value' => 'item85',
                 ),
             82 =>
-                array (
+                array(
                     'text' => 'Kosovo',
                     'value' => 'item89',
                 ),
             83 =>
-                array (
+                array(
                     'text' => 'Kuwait',
                     'value' => 'item90',
                 ),
             84 =>
-                array (
+                array(
                     'text' => 'Kyrgyzstan',
                     'value' => 'item86',
                 ),
             85 =>
-                array (
+                array(
                     'text' => 'Laos',
                     'value' => 'item91',
                 ),
             86 =>
-                array (
+                array(
                     'text' => 'Latvia',
                     'value' => 'item99',
                 ),
             87 =>
-                array (
+                array(
                     'text' => 'Lebanon',
                     'value' => 'item92',
                 ),
             88 =>
-                array (
+                array(
                     'text' => 'Lesotho',
                     'value' => 'item96',
                 ),
             89 =>
-                array (
+                array(
                     'text' => 'Liberia',
                     'value' => 'item93',
                 ),
             90 =>
-                array (
+                array(
                     'text' => 'Libya',
                     'value' => 'item94',
                 ),
             91 =>
-                array (
+                array(
                     'text' => 'Lithuania',
                     'value' => 'item97',
                 ),
             92 =>
-                array (
+                array(
                     'text' => 'Luxembourg',
                     'value' => 'item98',
                 ),
             93 =>
-                array (
+                array(
                     'text' => 'Macedonia',
                     'value' => 'item104',
                 ),
             94 =>
-                array (
+                array(
                     'text' => 'Madagascar',
                     'value' => 'item102',
                 ),
             95 =>
-                array (
+                array(
                     'text' => 'Malawi',
                     'value' => 'item111',
                 ),
             96 =>
-                array (
+                array(
                     'text' => 'Malaysia',
                     'value' => 'item112',
                 ),
             97 =>
-                array (
+                array(
                     'text' => 'Mali',
                     'value' => 'item105',
                 ),
             98 =>
-                array (
+                array(
                     'text' => 'Mauritania',
                     'value' => 'item110',
                 ),
             99 =>
-                array (
+                array(
                     'text' => 'Mexico',
                     'value' => 'item103',
                 ),
             100 =>
-                array (
+                array(
                     'text' => 'Moldova',
                     'value' => 'item101',
                 ),
             101 =>
-                array (
+                array(
                     'text' => 'Mongolia',
                     'value' => 'item108',
                 ),
             102 =>
-                array (
+                array(
                     'text' => 'Montenegro',
                     'value' => 'item107',
                 ),
             103 =>
-                array (
+                array(
                     'text' => 'Morocco',
                     'value' => 'item100',
                 ),
             104 =>
-                array (
+                array(
                     'text' => 'Mozambique',
                     'value' => 'item109',
                 ),
             105 =>
-                array (
+                array(
                     'text' => 'Myanmar',
                     'value' => 'item106',
                 ),
             106 =>
-                array (
+                array(
                     'text' => 'Namibia',
                     'value' => 'item113',
                 ),
             107 =>
-                array (
+                array(
                     'text' => 'Nepal',
                     'value' => 'item120',
                 ),
             108 =>
-                array (
+                array(
                     'text' => 'Netherlands',
                     'value' => 'item118',
                 ),
             109 =>
-                array (
+                array(
                     'text' => 'New Caledonia',
                     'value' => 'item114',
                 ),
             110 =>
-                array (
+                array(
                     'text' => 'New Zealand',
                     'value' => 'item121',
                 ),
             111 =>
-                array (
+                array(
                     'text' => 'Nicaragua',
                     'value' => 'item117',
                 ),
             112 =>
-                array (
+                array(
                     'text' => 'Niger',
                     'value' => 'item115',
                 ),
             113 =>
-                array (
+                array(
                     'text' => 'Nigeria',
                     'value' => 'item116',
                 ),
             114 =>
-                array (
+                array(
                     'text' => 'North Korea',
                     'value' => 'item130',
                 ),
             115 =>
-                array (
+                array(
                     'text' => 'Northern Cyprus',
                     'value' => 'item39',
                 ),
             116 =>
-                array (
+                array(
                     'text' => 'Norway',
                     'value' => 'item119',
                 ),
             117 =>
-                array (
+                array(
                     'text' => 'Oman',
                     'value' => 'item122',
                 ),
             118 =>
-                array (
+                array(
                     'text' => 'Pakistan',
                     'value' => 'item123',
                 ),
             119 =>
-                array (
+                array(
                     'text' => 'Panama',
                     'value' => 'item124',
                 ),
             120 =>
-                array (
+                array(
                     'text' => 'Papua New Guinea',
                     'value' => 'item127',
                 ),
             121 =>
-                array (
+                array(
                     'text' => 'Paraguay',
                     'value' => 'item132',
                 ),
             122 =>
-                array (
+                array(
                     'text' => 'Peru',
                     'value' => 'item125',
                 ),
             123 =>
-                array (
+                array(
                     'text' => 'Philippines',
                     'value' => 'item126',
                 ),
             124 =>
-                array (
+                array(
                     'text' => 'Poland',
                     'value' => 'item128',
                 ),
             125 =>
-                array (
+                array(
                     'text' => 'Portugal',
                     'value' => 'item131',
                 ),
             126 =>
-                array (
+                array(
                     'text' => 'Puerto Rico',
                     'value' => 'item129',
                 ),
             127 =>
-                array (
+                array(
                     'text' => 'Qatar',
                     'value' => 'item133',
                 ),
             128 =>
-                array (
+                array(
                     'text' => 'Republic of Serbia',
                     'value' => 'item147',
                 ),
             129 =>
-                array (
+                array(
                     'text' => 'Republic of the Congo',
                     'value' => 'item35',
                 ),
             130 =>
-                array (
+                array(
                     'text' => 'Romania',
                     'value' => 'item134',
                 ),
             131 =>
-                array (
+                array(
                     'text' => 'Russia',
                     'value' => 'item135',
                 ),
             132 =>
-                array (
+                array(
                     'text' => 'Rwanda',
                     'value' => 'item136',
                 ),
             133 =>
-                array (
+                array(
                     'text' => 'Saudi Arabia',
                     'value' => 'item138',
                 ),
             134 =>
-                array (
+                array(
                     'text' => 'Senegal',
                     'value' => 'item141',
                 ),
             135 =>
-                array (
+                array(
                     'text' => 'Sierra Leone',
                     'value' => 'item143',
                 ),
             136 =>
-                array (
+                array(
                     'text' => 'Slovakia',
                     'value' => 'item149',
                 ),
             137 =>
-                array (
+                array(
                     'text' => 'Slovenia',
                     'value' => 'item150',
                 ),
             138 =>
-                array (
+                array(
                     'text' => 'Solomon Islands',
                     'value' => 'item142',
                 ),
             139 =>
-                array (
+                array(
                     'text' => 'Somalia',
                     'value' => 'item146',
                 ),
             140 =>
-                array (
+                array(
                     'text' => 'Somaliland',
                     'value' => 'item145',
                 ),
             141 =>
-                array (
+                array(
                     'text' => 'South Africa',
                     'value' => 'item175',
                 ),
             142 =>
-                array (
+                array(
                     'text' => 'South Korea',
                     'value' => 'item88',
                 ),
             143 =>
-                array (
+                array(
                     'text' => 'South Sudan',
                     'value' => 'item140',
                 ),
             144 =>
-                array (
+                array(
                     'text' => 'Spain',
                     'value' => 'item50',
                 ),
             145 =>
-                array (
+                array(
                     'text' => 'Sri Lanka',
                     'value' => 'item95',
                 ),
             146 =>
-                array (
+                array(
                     'text' => 'Sudan',
                     'value' => 'item139',
                 ),
             147 =>
-                array (
+                array(
                     'text' => 'Suriname',
                     'value' => 'item148',
                 ),
             148 =>
-                array (
+                array(
                     'text' => 'Swaziland',
                     'value' => 'item152',
                 ),
             149 =>
-                array (
+                array(
                     'text' => 'Sweden',
                     'value' => 'item151',
                 ),
             150 =>
-                array (
+                array(
                     'text' => 'Switzerland',
                     'value' => 'item29',
                 ),
             151 =>
-                array (
+                array(
                     'text' => 'Syria',
                     'value' => 'item153',
                 ),
             152 =>
-                array (
+                array(
                     'text' => 'Taiwan',
                     'value' => 'item163',
                 ),
             153 =>
-                array (
+                array(
                     'text' => 'Tajikistan',
                     'value' => 'item157',
                 ),
             154 =>
-                array (
+                array(
                     'text' => 'Thailand',
                     'value' => 'item156',
                 ),
             155 =>
-                array (
+                array(
                     'text' => 'The Bahamas',
                     'value' => 'item18',
                 ),
             156 =>
-                array (
+                array(
                     'text' => 'Togo',
                     'value' => 'item155',
                 ),
             157 =>
-                array (
+                array(
                     'text' => 'Trinidad and Tobago',
                     'value' => 'item160',
                 ),
             158 =>
-                array (
+                array(
                     'text' => 'Tunisia',
                     'value' => 'item161',
                 ),
             159 =>
-                array (
+                array(
                     'text' => 'Turkey',
                     'value' => 'item162',
                 ),
             160 =>
-                array (
+                array(
                     'text' => 'Turkmenistan',
                     'value' => 'item158',
                 ),
             161 =>
-                array (
+                array(
                     'text' => 'Uganda',
                     'value' => 'item165',
                 ),
             162 =>
-                array (
+                array(
                     'text' => 'Ukraine',
                     'value' => 'item166',
                 ),
             163 =>
-                array (
+                array(
                     'text' => 'United Arab Emirates',
                     'value' => 'item4',
                 ),
             164 =>
-                array (
+                array(
                     'text' => 'United Kingdom',
                     'value' => 'item58',
                 ),
             165 =>
-                array (
+                array(
                     'text' => 'United Republic of Tanzania',
                     'value' => 'item164',
                 ),
             166 =>
-                array (
+                array(
                     'text' => 'United States of America',
                     'value' => 'item168',
                 ),
             167 =>
-                array (
+                array(
                     'text' => 'Uruguay',
                     'value' => 'item167',
                 ),
             168 =>
-                array (
+                array(
                     'text' => 'Uzbekistan',
                     'value' => 'item169',
                 ),
             169 =>
-                array (
+                array(
                     'text' => 'Vanuatu',
                     'value' => 'item172',
                 ),
             170 =>
-                array (
+                array(
                     'text' => 'Venezuela',
                     'value' => 'item170',
                 ),
             171 =>
-                array (
+                array(
                     'text' => 'Vietnam',
                     'value' => 'item171',
                 ),
             172 =>
-                array (
+                array(
                     'text' => 'West Bank',
                     'value' => 'item173',
                 ),
             173 =>
-                array (
+                array(
                     'text' => 'Western Sahara',
                     'value' => 'item137',
                 ),
             174 =>
-                array (
+                array(
                     'text' => 'Yemen',
                     'value' => 'item174',
                 ),
             175 =>
-                array (
+                array(
                     'text' => 'Zambia',
                     'value' => 'item176',
                 ),
             176 =>
-                array (
+                array(
                     'text' => 'Zimbabwe',
                     'value' => 'item177',
                 ),
         );
 
         foreach ($countries as $c) {
-            if($c['value'] === $country)
+            if ($c['value'] === $country)
                 return $c['text'];
         }
 

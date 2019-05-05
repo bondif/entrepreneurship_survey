@@ -29,7 +29,26 @@ class AdminController extends Controller
             'bestProductsChart' => $this->getBestProductsChart(),
             'averageBudgetsChart' => $this->getAverageBudgetsChart(),
             'bestProductAspectsChart' => $this->getBestProductAspectsChart(),
+            'wantCustomProductsChart' => $this->getWantCustomProductsChart(),
         ]);
+    }
+
+    private function getWantCustomProductsChart()
+    {
+        $yes = SurveyResult::getWantCustomProduct('question9', 'item1');
+        $no = SurveyResult::getWantCustomProduct('question9', 'item2');
+
+        $wantCustomProductsChart = new MarketingStrategyChart();
+        $wantCustomProductsChart->displayAxes(false);
+        $wantCustomProductsChart->title("Would you like to be able to make custom craft products ?");
+        $wantCustomProductsChart->labels(["Yes", "No"]);
+        $customProductsDataset = $wantCustomProductsChart->dataset('Want custom product', 'pie', [
+            $yes, $no
+        ]);
+        $customProductsDataset->backgroundColor(collect(['#3ae374', '#ff3838']));
+        $customProductsDataset->color(collect(['#32ff7e', '#ff4d4d']));
+
+        return $wantCustomProductsChart;
     }
 
     private function getBestProductAspectsChart()

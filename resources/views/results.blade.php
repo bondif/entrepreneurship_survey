@@ -10,6 +10,7 @@
     <div class="container">{!! $bestProductsChart->container() !!}</div>
     <div class="container">{!! $averageBudgetsChart->container() !!}</div>
     <div class="container">{!! $bestProductAspectsChart->container() !!}</div>
+    <div class="container">{!! $wantCustomProductsChart->container() !!}</div>
 @stop
 
 @section('scripts')
@@ -22,4 +23,5 @@
     {!! $bestProductsChart->script() !!}
     {!! $averageBudgetsChart->script() !!}
     {!! $bestProductAspectsChart->script() !!}
+    {!! $wantCustomProductsChart->script() !!}
 @stop

@@ -28,7 +28,28 @@ class AdminController extends Controller
             'marketsChart' => $this->getMarketsChart(),
             'bestProductsChart' => $this->getBestProductsChart(),
             'averageBudgetsChart' => $this->getAverageBudgetsChart(),
+            'bestProductAspectsChart' => $this->getBestProductAspectsChart(),
         ]);
+    }
+
+    private function getBestProductAspectsChart()
+    {
+        $quality = SurveyResult::getBestProductAspects('question8', 'item1');
+        $origin = SurveyResult::getBestProductAspects('question8', 'item2');
+        $price = SurveyResult::getBestProductAspects('question8', 'item3');
+        $originality = SurveyResult::getBestProductAspects('question8', 'item4');
+        $authenticity = SurveyResult::getBestProductAspects('question8', 'item5');
+        $uniqueness = SurveyResult::getBestProductAspects('question8', 'item6');
+        $others = SurveyResult::getBestProductAspects('question8', 'item7');
+
+        $averageBudgetsChart = new MarketingStrategyChart();
+        $averageBudgetsChart->title("For the purchase of handicrafts, what criteria do you think are most important ?");
+        $averageBudgetsChart->labels(["Quality", "Origin", "Price", "Originality", "Authenticity", "Uniqueness", "Others"]);
+        $averageBudgetsChart->dataset('Best Product Aspects', 'bar', [
+            $quality, $origin, $price, $originality, $authenticity, $uniqueness, $others
+        ]);
+
+        return $averageBudgetsChart;
     }
 
     private function getAverageBudgetsChart()
@@ -37,7 +58,7 @@ class AdminController extends Controller
         $btw200And300 = SurveyResult::getAverageBudgets('question7', 'item2');
         $btw300And400 = SurveyResult::getAverageBudgets('question7', 'item3');
         $btw400And500 = SurveyResult::getAverageBudgets('question7', 'item4');
-        $gt500 = SurveyResult::getAverageBudgets('question7', 'item4');
+        $gt500 = SurveyResult::getAverageBudgets('question7', 'item5');
 
         $averageBudgetsChart = new MarketingStrategyChart();
         $averageBudgetsChart->title("What is the average annual budget you spend on furniture or craft items?");

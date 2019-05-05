@@ -25,7 +25,27 @@ class AdminController extends Controller
             'countriesChart' => $this->getCountriesChart(),
             'hadMadeOnlinePurchaseChart' => $this->getHadMadeOnlinePurchaseChart(),
             'marketingStrategyChart' => $this->getMarketingStrategyChart(),
+            'marketsChart' => $this->getMarketsChart(),
         ]);
+    }
+
+    private function getMarketsChart()
+    {
+        $supermarkets = SurveyResult::getMarketingStrategy('question5', 'item1');
+        $specializedShops = SurveyResult::getMarketingStrategy('question5', 'item2');
+        $traditionalMarkets = SurveyResult::getMarketingStrategy('question5', 'item3');
+        $mailOrderSelling = SurveyResult::getMarketingStrategy('question5', 'item4');
+        $internetShops = SurveyResult::getMarketingStrategy('question5', 'item5');
+        $others = SurveyResult::getMarketingStrategy('question5', 'item6');
+
+        $marketsChart = new MarketingStrategyChart();
+        $marketsChart->title("Markets");
+        $marketsChart->labels(["Supermarkets", "Specialized shop", "Traditional market", "Mail-order selling", "Internet", "Other"]);
+        $marketsChart->dataset('Markets', 'bar', [
+            $supermarkets, $specializedShops, $traditionalMarkets, $mailOrderSelling, $internetShops, $others
+        ]);
+
+        return $marketsChart;
     }
 
     private function getMarketingStrategyChart()

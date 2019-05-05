@@ -31,7 +31,26 @@ class AdminController extends Controller
             'bestProductAspectsChart' => $this->getBestProductAspectsChart(),
             'wantCustomProductsChart' => $this->getWantCustomProductsChart(),
             'famousCountriesChart' => $this->getFamousCountriesChart(),
+            'moroccanCraftsInterestsChart' => $this->getMoroccanCraftsInterestsChart(),
         ]);
+    }
+
+    private function getMoroccanCraftsInterestsChart()
+    {
+        $one = SurveyResult::getMoroccanCraftsInterests('question11', '1');
+        $two = SurveyResult::getMoroccanCraftsInterests('question11', '2');
+        $three = SurveyResult::getMoroccanCraftsInterests('question11', '3');
+        $four = SurveyResult::getMoroccanCraftsInterests('question11', '4');
+        $five = SurveyResult::getMoroccanCraftsInterests('question11', '5');
+
+        $chart = new MarketingStrategyChart();
+        $chart->title("At what level are you interested in Moroccan handicrafts ?");
+        $chart->labels(["Very Interested", "Interested", "Neutral", "Not Interested", "Not Interested At All"]);
+        $chart->dataset('Interest Levels', 'bar', [
+            $five, $four, $three, $two, $one
+        ]);
+
+        return $chart;
     }
 
     private function getFamousCountriesChart()

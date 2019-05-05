@@ -30,7 +30,26 @@ class AdminController extends Controller
             'averageBudgetsChart' => $this->getAverageBudgetsChart(),
             'bestProductAspectsChart' => $this->getBestProductAspectsChart(),
             'wantCustomProductsChart' => $this->getWantCustomProductsChart(),
+            'famousCountriesChart' => $this->getFamousCountriesChart(),
         ]);
+    }
+
+    private function getFamousCountriesChart()
+    {
+        $morocco = SurveyResult::getFamousCountries('question10', 'item1');
+        $senegal = SurveyResult::getFamousCountries('question10', 'item2');
+        $india = SurveyResult::getFamousCountries('question10', 'item3');
+        $japan = SurveyResult::getFamousCountries('question10', 'item4');
+        $others = SurveyResult::getFamousCountries('question10', 'item5');
+
+        $chart = new MarketingStrategyChart();
+        $chart->title("Which of this countries craft products appeal to you the most ?");
+        $chart->labels(["Morocco", "Senegal", "India", "Japan", "Others"]);
+        $chart->dataset('Famous Countries', 'bar', [
+            $morocco, $senegal, $india, $japan, $others
+        ]);
+
+        return $chart;
     }
 
     private function getWantCustomProductsChart()
